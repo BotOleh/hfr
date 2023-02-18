@@ -1,12 +1,13 @@
 import random
 class Human:
-    def __init__(self, name="Human", job=None, home=None, car=None):
+    def __init__(self, name="Human", job=None, home=None, car=None, animal=None):
         self.name = name
         self.money = 100
         self.gladness = 50
         self.satiety = 50
         self.job = job
         self.car = car
+        self.animal = animal
         self.home = home
 
     def get_home(self):
@@ -14,6 +15,9 @@ class Human:
 
     def get_car(self):
         self.car = Auto(brands_of_car)
+
+    def get_animal(self):
+        self.animal = animal(Breed_of_animals)
 
 
     def get_job(self):
@@ -65,6 +69,7 @@ class Human:
             print("Bought food")
             self.money -= 50
             self.home.food += 50
+            self.animal.feed += 30
         elif manage == "delicacies":
             print("Hooray! Delicious!")
             self.gladness += 10
@@ -81,6 +86,11 @@ class Human:
     def to_repair(self):
         self.car.strength += 100
         self.money -= 50
+    def to_buy_a_new_pet(self):
+        self.money -= 50
+    def to_Start_working(self):
+        self.money += 25
+        self.animal.Feed -= 25
 
     def days_indexes(self, day):
         day = f" Today the {day} of {self.name}'s life "
@@ -98,6 +108,10 @@ class Human:
         print(f"{car_indexes:^50}", "\n")
         print(f"Fuel – {self.car.fuel}")
         print(f"Strength – {self.car.strength}")
+        animal_indexes = f"{self.animal.Breed} animal indexes"
+        print(f"{animal_indexes:^50}", "\n")
+        print(f"Feed – {self.animal.feed}")
+        print(f"Dexterity – {self.animal.dexterity}")
 
     def is_alive(self):
         if self.gladness < 0:
@@ -119,6 +133,9 @@ class Human:
         if self.car is None:
             self.get_car()
             print(f"I bought a car{self.car.brand}")
+        if self.animal is None:
+            self.get_animal()
+            print(f"I bought a animal{self.animal.Breed}")
         if self.job is None:
             self.get_job()
             print(f"I don't have a job, I'm going to get a job "
@@ -200,6 +217,29 @@ class Job:
         self.job=random.choice(list(job_list))
         self.salary=job_list[self.job]["salary"]
         self.gladness_less=job_list[self.job]["gladness_less"]
+
+Breed_of_animals = {
+    "CAT":{"feed":30, "dexterity":100, "consumption": 5},
+    "DOG":{"feed":70, "dexterity":40, "consumption": 8}, }
+
+
+class animal:
+    def __init__(self, Breed_list):
+        self.Breed=random.choice(list (Breed_list))
+        self.feed=Breed_list[self.Breed]["feed"]
+        self.dexterity = Breed_list[self.Breed]["dexterity"]
+        self.consumption=Breed_list[self.Breed]["consumption"]
+    def walking(self):
+        if self.strength > 0 and self.feed >= self.consumption:
+            self.feed -= self.consumption
+            self.dexterity -= 1
+            return True
+        else:
+            print("The pet died")
+            return False
+        if feed > 200:
+            print("pets died of overeating")
+            return False
 
 nick = Human(name="Nick")
 for day in range(1,800):
